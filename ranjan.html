@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>রন্জন কুমার - ফ্রন্টএন্ড ডেভেলপার</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #00ff41;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* ম্যাট্রিক্স ব্যাকগ্রাউন্ড ইফেক্ট */
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        /* নিওমরফিজম কন্টেইনার */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* হেডার স্টাইল */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(0, 255, 65, 0.3);
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 0 0 10px #00ff41;
+            position: relative;
+        }
+
+        .logo::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #00ff41;
+            box-shadow: 0 0 10px #00ff41;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            color: #00ff41;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 10px;
+        }
+
+        nav ul li a:hover {
+            text-shadow: 0 0 10px #00ff41;
+            transform: translateY(-2px);
+        }
+
+        nav ul li a::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #00ff41;
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        /* হিরো সেকশন */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 80px;
+            padding: 40px 0;
+        }
+
+        .hero-content {
+            flex: 1;
+            padding-right: 40px;
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .profile-img {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 3px solid #00ff41;
+            box-shadow: 0 0 20px #00ff41;
+            background: linear-gradient(45deg, #0a0a0a, #003b15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+            color: #00ff41;
+            overflow: hidden;
+        }
+
+        .profile-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #00ff41;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #00ff41;
+            box-shadow: 0 0 10px #00ff41;
+        }
+
+        .title {
+            font-size: 24px;
+            color: #00cc33;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .title::before {
+            content: "< ";
+            color: #00ff41;
+        }
+
+        .title::after {
+            content: " />";
+            color: #00ff41;
+        }
+
+        .description {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #b3ffcc;
+        }
+
+        /* অস্থির লেবেল */
+        .glitch-label {
+            font-size: 20px;
+            font-weight: bold;
+            color: #00ff41;
+            text-shadow: 2px 2px 0 #ff00ff, -2px -2px 0 #00ffff;
+            animation: glitch 3s infinite;
+            display: inline-block;
+            margin: 10px 0;
+            padding: 5px 10px;
+            border: 1px solid #00ff41;
+            background: rgba(0, 255, 65, 0.1);
+        }
+
+        @keyframes glitch {
+            0% {
+                transform: translate(0);
+            }
+            20% {
+                transform: translate(-2px, 2px);
+            }
+            40% {
+                transform: translate(-2px, -2px);
+            }
+            60% {
+                transform: translate(2px, 2px);
+            }
+            80% {
+                transform: translate(2px, -2px);
+            }
+            100% {
+                transform: translate(0);
+            }
+        }
+
+        /* সেকশন স্টাইল */
+        section {
+            margin-bottom: 80px;
+            padding: 40px;
+            border-radius: 15px;
+            background: rgba(10, 30, 20, 0.5);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+        }
+
+        h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #00ff41;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #00ff41;
+            box-shadow: 0 0 10px #00ff41;
+        }
+
+        /* স্কিলস গ্রিড */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-item {
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 255, 65, 0.3);
+            background: rgba(0, 255, 65, 0.2);
+        }
+
+        /* প্রজেক্টস গ্রিড */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            border-radius: 10px;
+            overflow: hidden;
+            background: rgba(10, 20, 15, 0.8);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 255, 65, 0.3);
+            border: 1px solid rgba(0, 255, 65, 0.6);
+        }
+
+        .project-image {
+            height: 200px;
+            background: linear-gradient(45deg, #003b15, #0a0a0a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #00ff41;
+        }
+
+        .project-content {
+            padding: 20px;
+        }
+
+        .project-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #00ff41;
+        }
+
+        .project-description {
+            color: #b3ffcc;
+            margin-bottom: 15px;
+        }
+
+        /* কন্টাক্ট ফর্ম */
+        .contact-form {
+            display: grid;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+            color: #00ff41;
+        }
+
+        input, textarea {
+            padding: 12px;
+            background: rgba(0, 20, 10, 0.8);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 5px;
+            color: #00ff41;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border: 1px solid #00ff41;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+        }
+
+        button {
+            padding: 12px 30px;
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid #00ff41;
+            color: #00ff41;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: rgba(0, 255, 65, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* ফুটার */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px solid rgba(0, 255, 65, 0.3);
+            margin-top: 40px;
+            color: #b3ffcc;
+        }
+
+        /* স্ক্রলবার স্টাইল */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #00ff41;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00cc33;
+        }
+
+        /* রেস্পন্সিভ ডিজাইন */
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-content {
+                padding-right: 0;
+                margin-bottom: 40px;
+            }
+            
+            h1 {
+                font-size: 36px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 5px 10px;
+            }
+            
+            .profile-img {
+                width: 250px;
+                height: 250px;
+                font-size: 80px;
+            }
+            
+            section {
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 20px;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+            
+            .title {
+                font-size: 18px;
+            }
+            
+            .profile-img {
+                width: 200px;
+                height: 200px;
+                font-size: 60px;
+            }
+            
+            .skills-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ম্যাট্রিক্স ব্যাকগ্রাউন্ড -->
+    <canvas class="matrix-bg" id="matrix"></canvas>
+
+    <div class="container">
+        <header>
+            <div class="logo">R.K</div>
+            <nav>
+                <ul>
+                    <li><a href="#home">হোম</a></li>
+                    <li><a href="#about">আমার সম্পর্কে</a></li>
+                    <li><a href="#skills">দক্ষতা</a></li>
+                    <li><a href="#projects">প্রকল্প</a></li>
+                    <li><a href="#contact">যোগাযোগ</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>রন্জন কুমার দাদা</h1>
+                <div class="title">ফ্রন্টএন্ড ওয়েব ডেভেলপার</div>
+                <div class="glitch-label">ক্রিয়েটিভ কোডিং</div>
+                <p class="description">
+                    আমি একজন আগ্রহী ফ্রন্টএন্ড ডেভেলপার, যিনি আধুনিক ওয়েব টেকনোলজি নিয়ে কাজ করতে ভালোবাসেন। 
+                    আমার বিশেষত্ব হলো রেস্পন্সিভ ওয়েব ডিজাইন, ইউজার ইন্টারফেস ডেভেলপমেন্ট এবং ইন্টারেক্টিভ ওয়েব অ্যাপ্লিকেশন তৈরি করা।
+                </p>
+                <button id="view-work-btn">আমার কাজ দেখুন</button>
+            </div>
+            <div class="hero-image">
+                <div class="profile-img">
+                    <!-- আপনার প্রোফাইল ছবি যোগ করুন -->
+                    <img src="rk.jpg" alt="মোঃ মেহেদি হাসান" onerror="this.style.display='none'; this.parentNode.innerHTML='MH';">
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <h2>আমার সম্পর্কে</h2>
+            <p class="description">
+                আমি রন্জন কুমার, একজন দক্ষ ফ্রন্টএন্ড ওয়েব ডেভেলপার। আমি HTML, CSS, JavaScript এবং বিভিন্ন আধুনিক ফ্রেমওয়ার্ক 
+                ব্যবহার করে আকর্ষণীয় ওয়েবসাইট এবং ওয়েব অ্যাপ্লিকেশন তৈরি করি। আমি সবসময় নতুন টেকনোলজি শিখতে এবং চ্যালেঞ্জিং প্রজেক্টে কাজ করতে উৎসাহী।
+            </p>
+            <div class="glitch-label">নিও ম্যাট্রিক্স ইফেক্ট</div>
+        </section>
+
+        <section id="skills">
+            <h2>দক্ষতা</h2>
+            <div class="skills-grid">
+                <div class="skill-item">HTML5</div>
+                <div class="skill-item">CSS3</div>
+                <div class="skill-item">JavaScript</div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2>প্রকল্পসমূহ</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">P1</div>
+                    <div class="project-content">
+                        <h3 class="project-title">ই-কমার্স ওয়েবসাইট</h3>
+                        <p class="project-description">একটি সম্পূর্ণ রেস্পন্সিভ ই-কমার্স ওয়েবসাইট React.js এবং Node.js ব্যবহার করে তৈরি।</p>
+                        <button class="project-detail-btn">বিস্তারিত দেখুন</button>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">P2</div>
+                    <div class="project-content">
+                        <h3 class="project-title">টাস্ক ম্যানেজমেন্ট অ্যাপ</h3>
+                        <p class="project-description">Vue.js এবং Firebase ব্যবহার করে তৈরি একটি ইন্টারেক্টিভ টাস্ক ম্যানেজমেন্ট অ্যাপ্লিকেশন।</p>
+                        <button class="project-detail-btn">বিস্তারিত দেখুন</button>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">P3</div>
+                    <div class="project-content">
+                        <h3 class="project-title">পোর্টফলিও ওয়েবসাইট</h3>
+                        <p class="project-description">নিওমরফিজম ডিজাইন এবং ম্যাট্রিক্স ইফেক্ট সহ একটি আধুনিক পোর্টফলিও ওয়েবসাইট।</p>
+                        <button class="project-detail-btn">বিস্তারিত দেখুন</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>যোগাযোগ</h2>
+            <form class="contact-form" id="contact-form">
+                <div class="form-group">
+                    <label for="name">নাম</label>
+                    <input type="text" id="name" placeholder="আপনার নাম লিখুন" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">ইমেইল</label>
+                    <input type="email" id="email" placeholder="আপনার ইমেইল লিখুন" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">বার্তা</label>
+                    <textarea id="message" rows="5" placeholder="আপনার বার্তা লিখুন" required></textarea>
+                </div>
+                <button type="submit">বার্তা পাঠান</button>
+            </form>
+        </section>
+
+        <footer>
+            <p>&copy; ২০২৩ রন্জন কুমার । সকল স্বত্ব সংরক্ষিত।</p>
+            <div class="glitch-label">ধন্যবাদ!</div>
+        </footer>
+    </div>
+
+    <script>
+        // ম্যাট্রিক্স ব্যাকগ্রাউন্ড ইফেক্ট
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+
+        // ক্যানভাস সাইজ সেট করা
+        function setCanvasSize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        setCanvasSize();
+
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789$+-*/=%"\'#&_(),.;:?!\\|{}<>[]^~';
+        const lettersArray = letters.split('');
+
+        const fontSize = 14;
+        let columns = canvas.width / fontSize;
+
+        const drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = Math.floor(Math.random() * canvas.height / fontSize);
+        }
+
+        function draw() {
+            ctx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#00ff41';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = lettersArray[Math.floor(Math.random() * lettersArray.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+
+                drops[i]++;
+            }
+        }
+
+        // রিকুয়েস্ট অ্যানিমেশন ফ্রেম ব্যবহার করে স্মুথ অ্যানিমেশন
+        function animate() {
+            draw();
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+
+        // রেস্পন্সিভ ক্যানভাস
+        window.addEventListener('resize', function() {
+            setCanvasSize();
+            columns = canvas.width / fontSize;
+            
+            // ড্রপ অ্যারে রিসেট করা
+            drops.length = 0;
+            for (let i = 0; i < columns; i++) {
+                drops[i] = Math.floor(Math.random() * canvas.height / fontSize);
+            }
+        });
+
+        // অস্থির লেবেলগুলোর জন্য র্যান্ডম গ্লিচ ইফেক্ট
+        const glitchLabels = document.querySelectorAll('.glitch-label');
+        setInterval(() => {
+            glitchLabels.forEach(label => {
+                if (Math.random() > 0.7) {
+                    label.style.textShadow = `
+                        ${Math.random() * 4 - 2}px ${Math.random() * 4 - 2}px 0 #ff00ff,
+                        ${Math.random() * 4 - 2}px ${Math.random() * 4 - 2}px 0 #00ffff
+                    `;
+                }
+            });
+        }, 100);
+
+        // স্মুথ স্ক্রোলিং
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 20,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // "আমার কাজ দেখুন" বাটন ক্লিক ইভেন্ট
+        document.getElementById('view-work-btn').addEventListener('click', function() {
+            document.querySelector('#projects').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        // প্রজেক্ট ডিটেইল বাটন ক্লিক ইভেন্ট
+        document.querySelectorAll('.project-detail-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const projectTitle = this.parentElement.querySelector('.project-title').textContent;
+                alert(`প্রকল্প: ${projectTitle}\n\nদুঃখিত, এই প্রজেক্টের বিস্তারিত এখনও যোগ করা হয়নি।`);
+            });
+        });
+
+        // কন্টাক্ট ফর্ম সাবমিশন
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('আপনার বার্তা সফলভাবে পাঠানো হয়েছে! আমি শীঘ্রই আপনার সাথে যোগাযোগ করব।');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
